@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="SaveResponsePlugin.ToolView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sr="clr-namespace:SaveResponsePlugin"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance sr:ToolViewModel}"
+             d:DesignHeight="150" d:DesignWidth="300">
+    
+    <ContentControl Height="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ViewportHeight}"
+                    Margin="-8">
+        <DockPanel Margin="8">
+            <TextBlock DockPanel.Dock="Top"
+                       Text="Save Log"
+                       Style="{DynamicResource DefaultTextStyleKey}"/>
+
+            <Rectangle DockPanel.Dock="Top"
+                       Height="1"
+                       Margin="0,12"
+                       Style="{DynamicResource SeparatorRectangleStyleKey}" />
+
+            <!-- 親がScrollViewerなので、ROOTのHeightを強制しないとにょきにょき伸びる。。 -->
+            <ScrollViewer DockPanel.Dock="Bottom"
+                          PanningMode="Both"
+                          HorizontalScrollBarVisibility="Auto">
+                <TextBlock Text="{Binding LogText}"
+                           Style="{DynamicResource DefaultTextStyleKey}"
+                           VerticalAlignment="Top"/>
+            </ScrollViewer>
+        </DockPanel>
+    </ContentControl>
+    
+</UserControl>
