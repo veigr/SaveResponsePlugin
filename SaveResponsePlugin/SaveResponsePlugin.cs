@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Grabacr07.KanColleViewer.Composition;
@@ -10,9 +11,13 @@ using Grabacr07.KanColleWrapper;
 namespace SaveResponsePlugin
 {
     [Export(typeof(IToolPlugin))]
+    [ExportMetadata("Title", "SaveResponsePlugin")]
+    [ExportMetadata("Description", "Response データを保存します。")]
+    [ExportMetadata("Version", "1.0.1")]
+    [ExportMetadata("Author", "@veigr")]
     public class SaveResponsePlugin : IToolPlugin
     {
-        private readonly ToolViewModel vm = new ToolViewModel
+        private readonly ToolViewModel _vm = new ToolViewModel
         {
             Writer = new ResponseFileWriter(KanColleClient.Current.Proxy)
         };
@@ -20,7 +25,7 @@ namespace SaveResponsePlugin
         public object GetToolView()
         {
             /// ログとか正直要らないんだけど、GetToolViewでnull返しても空っぽのタブが出来て不自然なので…
-            return new ToolView { DataContext = vm };
+            return new ToolView { DataContext = _vm };
         }
 
         public string ToolName
