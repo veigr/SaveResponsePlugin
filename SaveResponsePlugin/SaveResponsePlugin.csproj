@@ -33,16 +33,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BCMakeCert">
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\BCMakeCert.dll</HintPath>
+      <HintPath>..\packages\FiddlerCore.4.5.1.0\lib\net40\BCMakeCert.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CertMaker">
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\CertMaker.dll</HintPath>
+      <HintPath>..\packages\FiddlerCore.4.5.1.0\lib\net40\CertMaker.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="FiddlerCore4, Version=4.4.8.4, Culture=neutral, PublicKeyToken=67cb91587178ac5a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\FiddlerCore4.dll</HintPath>
+    <Reference Include="FiddlerCore4">
+      <HintPath>..\packages\FiddlerCore.4.5.1.0\lib\net40\FiddlerCore4.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="KanColleViewer, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -61,6 +60,7 @@
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\LivetCask.1.1.0.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -84,6 +84,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\LivetCask.1.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xaml" />
