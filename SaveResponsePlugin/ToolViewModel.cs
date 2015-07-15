@@ -18,27 +18,24 @@ namespace SaveResponsePlugin
         public ResponseFileWriter Writer
         {
             get
-            { return _Writer; }
+            { return this._Writer; }
             set
             { 
-                if (_Writer == value)
+                if (this._Writer == value)
                     return;
-                _Writer = value;
+                this._Writer = value;
 
-                if (_Writer != null)
+                if (this._Writer != null)
                 {
                     this.CompositeDisposable.Add(new CollectionChangedWeakEventListener(
-                        _Writer.Log,
-                        (sender, e) => RaisePropertyChanged(() => this.LogText)));
+                        this._Writer.Log,
+                        (sender, e) => this.RaisePropertyChanged(() => this.LogText)));
                 }
-                RaisePropertyChanged();
+                this.RaisePropertyChanged();
             }
         }
         #endregion
 
-        public string LogText
-        {
-            get { return string.Join(Environment.NewLine, Writer.Log) + Environment.NewLine; }
-        }
+        public string LogText => string.Join(Environment.NewLine, this.Writer.Log) + Environment.NewLine;
     }
 }

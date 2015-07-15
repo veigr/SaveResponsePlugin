@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Grabacr07.KanColleWrapper;
-using Fiddler;
+using Nekoxy;
 using Livet;
 
 namespace SaveResponsePlugin
@@ -19,13 +20,13 @@ namespace SaveResponsePlugin
         public DispatcherCollection<string> Log
         {
             get
-            { return _Log; }
+            { return this._Log; }
             set
             { 
-                if (_Log == value)
+                if (this._Log == value)
                     return;
-                _Log = value;
-                RaisePropertyChanged();
+                this._Log = value;
+                this.RaisePropertyChanged();
             }
         }
         #endregion
@@ -36,20 +37,13 @@ namespace SaveResponsePlugin
 
             //kcsとkcsapi以下を保存。キャッシュにある奴は保存されない。
             var kscSessionSource = proxy.SessionSource
-                .Where(s => s.PathAndQuery.StartsWith("/kcs/")
-                        || s.PathAndQuery.StartsWith("/kcsapi/"));
+                .Where(s => s.Request.PathAndQuery.StartsWith("/kcs/")
+                        || s.Request.PathAndQuery.StartsWith("/kcsapi/"));
+
+            kscSessionSource.Subscribe(s => s.SaveResponseBody(s.GetSaveFilePath()));
 
             kscSessionSource
-                .Where(s => s.NeedDecode())
-                .Where(s => s.utilDecodeResponse(true)) //chunkedはDecodeが必要っぽい
-                .Subscribe(s => s.SaveResponseBody(s.GetSaveFilePath()));
-
-            kscSessionSource
-                .Where(s => !s.NeedDecode())
-                .Subscribe(s => s.SaveResponseBody(s.GetSaveFilePath()));
-
-            kscSessionSource
-                .Subscribe(s => Log.Add(DateTimeOffset.Now.ToString("HH:mm:ss : ") + s.PathAndQuery));
+                .Subscribe(s => Log.Add(DateTimeOffset.Now.ToString("HH:mm:ss : ") + s.Request.PathAndQuery));
         }
     }
 
@@ -57,17 +51,21 @@ namespace SaveResponsePlugin
     {
         public static string GetSaveFilePath(this Session session)
         {
-            //TODO: SettingsViewができたら外部設定出来るようにしたい
             return System.Environment.CurrentDirectory
-            + "/ResponseData"
-            + session.PathAndQuery.Split('?').First();
+                   + "/ResponseData"
+                   + session.Request.PathAndQuery.Split('?').First();
         }
 
-        public static bool NeedDecode(this Session session)
+        private static readonly object lockObj = new object();
+
+        public static void SaveResponseBody(this Session session, string filePath)
         {
-            return session.oResponse.headers
-                    .Where(h => h.Name == "Transfer-Encoding")
-                    .Any(h => h.Value == "chunked");
+            lock (lockObj)
+            {
+                var dir = Directory.GetParent(filePath);
+                if (!dir.Exists) dir.Create();
+                File.WriteAllBytes(filePath, session.Response.Body);
+            }
         }
     }
 }
