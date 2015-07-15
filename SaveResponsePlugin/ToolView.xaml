@@ -37,9 +37,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-	<ContentControl Height="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ViewportHeight}"
-                    Margin="-8">
-        <DockPanel Margin="8">
+    <ContentControl Margin="8,4">
+        <DockPanel>
             <TextBlock DockPanel.Dock="Top"
                        Text="Save Log"
                        Style="{DynamicResource DefaultTextStyleKey}"/>
@@ -49,7 +48,6 @@
                        Margin="0,12"
                        Style="{DynamicResource SeparatorRectangleStyleKey}" />
 
-            <!-- 親がScrollViewerなので、ROOTのHeightを強制しないとにょきにょき伸びる。。 -->
             <ScrollViewer DockPanel.Dock="Bottom"
                           PanningMode="Both"
                           HorizontalScrollBarVisibility="Auto">
