@@ -37,7 +37,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ContentControl Margin="8,4">
+    <ContentControl Margin="8,4,0,0">
         <DockPanel>
             <TextBlock DockPanel.Dock="Top"
                        Text="Save Log"
@@ -48,13 +48,36 @@
                        Margin="0,12"
                        Style="{DynamicResource SeparatorRectangleStyleKey}" />
 
-            <ScrollViewer DockPanel.Dock="Bottom"
-                          PanningMode="Both"
-                          HorizontalScrollBarVisibility="Auto">
-                <TextBlock Text="{Binding LogText}"
-                           Style="{DynamicResource DefaultTextStyleKey}"
-                           VerticalAlignment="Top"/>
-            </ScrollViewer>
+            <ItemsControl DockPanel.Dock="Bottom"
+                          ItemsSource="{Binding Writer.Log}"
+                          Grid.IsSharedSizeScope="True">
+                <ItemsControl.Template>
+                    <ControlTemplate>
+                        <ScrollViewer PanningMode="Both"
+                                      VerticalScrollBarVisibility="Visible"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VirtualizingPanel.IsVirtualizing="True"
+                                      VirtualizingPanel.VirtualizationMode="Recycling"
+                                      VirtualizingPanel.ScrollUnit="Pixel"
+                                      Background="{DynamicResource ThemeBrushKey}">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <DataTemplate.Resources>
+                            <Style TargetType="{x:Type TextBlock}"
+                                   BasedOn="{StaticResource DefaultTextStyleKey}">
+                                <Setter Property="Margin"
+                                        Value="2,0"/>
+                            </Style>
+                        </DataTemplate.Resources>
+                        <TextBlock Text="{Binding}"
+                                   VerticalAlignment="Top"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </DockPanel>
     </ContentControl>
     

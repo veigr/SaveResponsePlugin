@@ -24,18 +24,9 @@ namespace SaveResponsePlugin
                 if (this._Writer == value)
                     return;
                 this._Writer = value;
-
-                if (this._Writer != null)
-                {
-                    this.CompositeDisposable.Add(new CollectionChangedWeakEventListener(
-                        this._Writer.Log,
-                        (sender, e) => this.RaisePropertyChanged(() => this.LogText)));
-                }
                 this.RaisePropertyChanged();
             }
         }
         #endregion
-
-        public string LogText => string.Join(Environment.NewLine, this.Writer.Log) + Environment.NewLine;
     }
 }

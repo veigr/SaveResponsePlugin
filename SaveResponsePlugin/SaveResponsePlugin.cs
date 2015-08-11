@@ -28,6 +28,7 @@ namespace SaveResponsePlugin
 
         public string Name => "SaveResponse";
 
+        // タブ表示するたびに new されてしまうが、今のところ new しないとマルチウィンドウで正常に表示されない
         public object View => new ToolView {DataContext = _vm};
     }
 }
