@@ -38,6 +38,7 @@ namespace SaveResponsePlugin
             //kcsとkcsapi以下を保存。キャッシュにある奴は保存されない。
             var kscSessionSource = proxy.SessionSource
                 .Where(s => s.Request.PathAndQuery.StartsWith("/kcs/")
+                        || s.Request.PathAndQuery.StartsWith("/kcs2/")
                         || s.Request.PathAndQuery.StartsWith("/kcsapi/"));
 
             kscSessionSource.Subscribe(s => s.SaveResponseBody(s.GetSaveFilePath()));
@@ -63,7 +64,10 @@ namespace SaveResponsePlugin
             lock (lockObj)
             {
                 var dir = Directory.GetParent(filePath);
-                if (!dir.Exists) dir.Create();
+                if (File.Exists(dir.FullName))
+                    File.Delete(dir.FullName);
+                if (!dir.Exists)
+                    dir.Create();
                 File.WriteAllBytes(filePath, session.Response.Body);
             }
         }
